@@ -3,6 +3,8 @@
 PDF 文本提取脚本
 用法: python3 extract_pdf.py <pdf_path> [--output <txt_path>]
 输出: 提取的文本内容（打印到 stdout 或写入文件）
+依赖: pdfplumber (pip install pdfplumber)
+Python: 3.9+ (使用 PEP 585 内置泛型注解)
 """
 import sys
 import argparse

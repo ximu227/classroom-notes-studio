@@ -6,8 +6,9 @@
 ## 技术栈
 - **Tailwind CSS**（CDN）：原子化样式
 - **KaTeX**（CDN）：LaTeX 公式渲染
-- **marked.js**（CDN）：Markdown 渲染（可选，要点可直接写 HTML）
 - **Excalidraw**（CDN，仅手绘导图模板）：React + Excalidraw 交互式手绘白板
+
+> 注意：要点内容直接写 HTML，不使用 marked.js 等 Markdown 渲染库。
 
 ## 字体规范（强制）
 
