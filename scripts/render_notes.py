@@ -2,7 +2,8 @@
 """
 HTML 笔记渲染为 PNG 图片
 用法: python3 render_notes.py <html_path> <output_png> [--width 1080]
-依赖: playwright + chromium
+依赖: playwright (pip install playwright && playwright install chromium)
+Python: 3.9+
 """
 import sys
 import argparse
@@ -45,11 +46,14 @@ def render_html_to_png(html_path: str, output_path: str, width: int = 1080, wait
 
         # 等待 KaTeX/MathJax 渲染完成
         time.sleep(wait_ms / 1000.0)
-        try:
-            page.wait_for_selector(".katex, .MathJax", timeout=3000)
-            time.sleep(0.5)
-        except Exception:
-            pass  # 没有公式也正常
+        # 仅在页面实际包含公式时等待公式渲染，避免无公式页面多等 3 秒
+        has_formula = page.locator(".katex, .MathJax").count() > 0
+        if has_formula:
+            try:
+                page.wait_for_selector(".katex, .MathJax", timeout=3000, state="attached")
+                time.sleep(0.5)
+            except Exception:
+                pass
 
         # 等待字体加载
         page.evaluate("document.fonts && document.fonts.ready")
