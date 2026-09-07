@@ -13,13 +13,14 @@
 ## 字体规范（强制）
 
 ```css
-font-family: 'Times New Roman', 'Microsoft YaHei', serif;
+font-family: 'Times New Roman', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', serif;
 ```
 
-- **汉字**：Microsoft YaHei（微软雅黑），**正体**（不斜体）
-- **英文和数字**：Times New Roman，**斜体**（通过 JS `wrapEnglish()` 实现）
+- **汉字**：PingFang SC / Hiragino Sans GB / Microsoft YaHei / Noto Sans SC（按系统优先级取第一个可用），**正体**（不斜体）
+- **英文**：Times New Roman，**斜体**（通过 JS `wrapEnglish()` 实现）
+- **数字**：Times New Roman，**正体**（不斜体）
 - **数学公式**：KaTeX 默认字体
-- **实现原理**：CSS 按 font-family 顺序匹配，英文数字命中 Times New Roman，中文回退到微软雅黑；JS 遍历文本节点仅将 `[a-zA-Z0-9]+` 包裹为 `<span class="en">`，CSS `.en { font-style: italic }`，跳过 `.katex` 内容
+- **实现原理**：CSS 按 font-family 顺序匹配，英文数字命中 Times New Roman，中文回退到微软雅黑；JS 遍历文本节点仅将 `[a-zA-Z]+`（英文字母，不含数字）包裹为 `<span class="en">`，CSS `.en { font-style: italic }`，跳过 `.katex` 内容
 
 ## 英文斜体实现（强制）
 
@@ -27,6 +28,7 @@ font-family: 'Times New Roman', 'Microsoft YaHei', serif;
 
 ```css
 .en { font-style: italic; }
+.formula-placeholder { display: inline-block; margin: 0 4px; }
 ```
 
 ```javascript
@@ -37,9 +39,9 @@ function wrapEnglish(root) {
   nodes.forEach(function(node) {
     if (node.parentElement && node.parentElement.closest('.katex')) return;
     var text = node.textContent;
-    if (!/[a-zA-Z0-9]/.test(text)) return;
+    if (!/[a-zA-Z]/.test(text)) return;
     var span = document.createElement('span');
-    span.innerHTML = text.replace(/([a-zA-Z0-9]+)/g, '<span class="en">$1</span>');
+    span.innerHTML = text.replace(/([a-zA-Z]+)/g, '<span class="en">$1</span>');
     node.parentNode.replaceChild(span, node);
   });
 }
@@ -67,7 +69,7 @@ function wrapEnglish(root) {
 | 模板 | 主题色 | 背景 | 编号色 |
 |---|---|---|---|
 | 提纲笔记 | 紫 #7C3AED / 粉 #F472B6 | 蓝紫粉渐变 #EEF2FF→#F5F3FF→#FDF4FF | 粉→蓝→绿 循环 |
-| 康奈尔笔记 | 红 #F87171 / 黄 #FBBF24 | 暖黄 #FFF8EC | 线索词彩色标签（6色循环） |
+| 康奈尔笔记 | 红 #F87171 / 黄 #FBBF24 | 暖黄 #FFF8EC | 关键词彩色标签（6色循环） |
 | 知识点笔记 | 绿 #10B981 | 绿渐变 #ECFDF5→#F0FDF4→#F7FEE7 | 红/蓝/绿/紫 循环 |
 
 ## 通用组件
@@ -122,8 +124,8 @@ function wrapEnglish(root) {
 - 标签头渐变：`linear-gradient(135deg,#FBBF24,#F59E0B)`
 - 活页本风格：左侧 `pl-10`，左侧圆环 `w-5 h-5 rounded-full border-2 border-gray-300 bg-gray-100`
 - 表头分割线：`border-bottom:3px solid #F87171`
-- 表格表头：线索词列 `bg:#FEF3C7 color:#92400E`，内容列 `bg:#DBEAFE color:#1D4ED8`
-- 线索词标签：彩色背景圆角，每词不同色（粉/紫/紫红/绿/浅绿/青 6 色循环）
+- 表格表头：关键词列 `bg:#FEF3C7 color:#92400E`，内容列 `bg:#DBEAFE color:#1D4ED8`
+- 关键词标签：彩色背景圆角，每词不同色（粉/紫/紫红/绿/浅绿/青 6 色循环）
 - 总结栏：左侧 `bg:#FECDD3 color:#9F1239` 固定宽，右侧 `bg:#FFF1F2` 内容
 
 ### 3. 知识点笔记
@@ -139,7 +141,7 @@ function wrapEnglish(root) {
 ## 设计禁忌
 - ❌ 出现"AI 生成"字样
 - ❌ 使用 font-mono / ui-monospace 覆盖数字字体
-- ❌ 全局 `font-style: italic`（会导致中文也斜体，必须用 JS 仅包裹英文）
+- ❌ 全局 `font-style: italic`（会导致中文也斜体，必须用 JS 仅包裹英文字母，数字保持正体）
 - ❌ 蓝紫渐变 + 圆角卡片的单调 AI 默认审美（每种模板要有鲜明主题色）
 - ❌ 大量 emoji 作为图标（使用 SVG 线性图标或纯 CSS）
 - ❌ CDN 版 KaTeX（Playwright file:// 页面中渲染不生效，必须本地引用）
