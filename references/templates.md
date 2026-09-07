@@ -17,9 +17,10 @@
 <link rel="stylesheet" href="katex/katex.min.css">
 <script src="katex/katex.min.js"></script>
 <style>
-  body { font-family:'Times New Roman','Microsoft YaHei',serif; margin:0; }
+  body { font-family:'Times New Roman','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC',serif; margin:0; }
   .katex { font-size: 1em; }
   .en { font-style: italic; }
+  .formula-placeholder { display: inline-block; margin: 0 4px; }
 </style>
 </head>
 ```
@@ -71,7 +72,7 @@
     });
   }
 
-  // 英文斜体：遍历文本节点，仅将 [a-zA-Z0-9]+ 包裹为 .en
+  // 英文斜体：遍历文本节点，仅将 [a-zA-Z]+（英文字母，不含数字）包裹为 .en
   function wrapEnglish(root) {
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
     var nodes = [];
@@ -79,9 +80,9 @@
     nodes.forEach(function(node) {
       if (node.parentElement && node.parentElement.closest('.katex')) return;
       var text = node.textContent;
-      if (!/[a-zA-Z0-9]/.test(text)) return;
+      if (!/[a-zA-Z]/.test(text)) return;
       var span = document.createElement('span');
-      span.innerHTML = text.replace(/([a-zA-Z0-9]+)/g, '<span class="en">$1</span>');
+      span.innerHTML = text.replace(/([a-zA-Z]+)/g, '<span class="en">$1</span>');
       node.parentNode.replaceChild(span, node);
     });
   }
@@ -241,16 +242,16 @@ wrapEnglish(document.body);
 ```
 ┌─────────────────────────────────────────┐
 │ [暖黄背景]                                │
-│ [π 康奈尔笔记]  左侧线索词右侧详细内容     │
+│ [π 康奈尔笔记]  左侧关键词右侧详细内容     │
 │                         [折线SVG装饰]    │
 │  ┌─────────────────────────────────────┐│
 │  │ ○  第1讲 一元一次方程的应用    日期... ││
 │  │ ○  ───────────红色分割线───────────  ││
 │  │ ○  ┌────────┬────────────────────┐  ││
-│  │ ○  │ 线索词  │ 详细内容             │  ││
+│  │ ○  │ 关键词  │ 详细内容             │  ││
 │  │ ○  ├────────┼────────────────────┤  ││
-│  │ ○  │[绝对值] │ ● 数轴上表示数a...   │  ││
-│  │ ○  │[分类]   │ ● 整数和分数...      │  ││
+│  │ ○  │[核心公式] │ 公式内容合并段落...   │  ││
+│  │ ○  │[解题方法] │ 方法内容合并段落...   │  ││
 │  │ ○  └────────┴────────────────────┘  ││
 │  │    ┌────────┬────────────────────┐  ││
 │  │    │ 总结    │ 本节课核心是...      │  ││
@@ -259,7 +260,7 @@ wrapEnglish(document.body);
 └─────────────────────────────────────────┘
 ```
 
-### 线索词标签颜色（6 色循环）
+### 关键词标签颜色（6 色循环）
 ```javascript
 const CORNELL_TAG_COLORS = [
   {bg:'#FCE7F3', color:'#BE185D'},  // 粉
@@ -286,7 +287,7 @@ const CORNELL_TAG_COLORS = [
         </svg>
         康奈尔笔记
       </div>
-      <div class="px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm">左侧线索词，右侧详细内容，方便复习回顾</div>
+      <div class="px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm">左侧关键词，右侧详细内容，方便复习回顾</div>
     </div>
 
     <!-- 右上角装饰 -->
@@ -322,7 +323,7 @@ const CORNELL_TAG_COLORS = [
         <table class="w-full border-collapse">
           <thead>
             <tr>
-              <th class="w-[180px] px-4 py-3 text-center text-lg font-bold rounded-l-xl" style="background:#FEF3C7;color:#92400E;">线索词</th>
+              <th class="w-[180px] px-4 py-3 text-center text-lg font-bold rounded-l-xl" style="background:#FEF3C7;color:#92400E;">关键词</th>
               <th class="px-4 py-3 text-center text-lg font-bold rounded-r-xl" style="background:#DBEAFE;color:#1D4ED8;">详细内容</th>
             </tr>
           </thead>
@@ -348,25 +349,19 @@ document.getElementById('note-date').textContent = data.date || '';
 document.getElementById('note-subject').textContent = data.subject;
 document.getElementById('note-summary').innerHTML = renderPoint(data.summary);
 
-// 展平所有 sections 的 points 为行，cues 作为线索词
+// 关键词+合并段落：取 level 2 子节点的 heading 作为关键词，该节点所有 points 合并为一段
+// 若 level 1 无子节点，则用 level 1 本身
 var rows = [];
 data.sections.forEach(function(sec) {
-  var cues = (sec.cues || []).join(' / ') || sec.heading;
-  // 收集本级 points
-  sec.points.forEach(function(p) {
-    rows.push({keyword: cues, content: p});
-  });
-  // 收集子节点 points
-  function collectChildren(children) {
-    if (!children) return;
-    children.forEach(function(child) {
-      child.points.forEach(function(p) {
-        rows.push({keyword: child.heading, content: p});
-      });
-      collectChildren(child.children);
+  if (sec.children && sec.children.length > 0) {
+    sec.children.forEach(function(child) {
+      var merged = child.points.map(function(p) { return p; }).join(' ');
+      rows.push({keyword: child.heading, content: merged});
     });
+  } else {
+    var merged2 = sec.points.map(function(p) { return p; }).join(' ');
+    rows.push({keyword: sec.heading, content: merged2});
   }
-  collectChildren(sec.children);
 });
 
 var tbody = document.getElementById('cornell-rows');
@@ -376,9 +371,7 @@ rows.forEach(function(row, i) {
   tr.className = 'border-b border-gray-200';
   tr.innerHTML = '<td class="px-4 py-3 align-middle">' +
     '<span class="block text-center text-base font-bold py-1.5 rounded-lg" style="background:' + tagColor.bg + ';color:' + tagColor.color + ';">' + row.keyword + '</span></td>' +
-    '<td class="px-4 py-3 align-middle"><div class="flex items-start gap-2">' +
-    '<span class="mt-2 w-2.5 h-2.5 rounded-full shrink-0" style="background:#F472B6;"></span>' +
-    '<div class="text-base text-gray-700 leading-relaxed">' + renderPoint(row.content) + '</div></div></td>';
+    '<td class="px-4 py-3 align-middle"><div class="text-base text-gray-700 leading-relaxed">' + renderPoint(row.content) + '</div></td>';
   tbody.appendChild(tr);
 });
 
