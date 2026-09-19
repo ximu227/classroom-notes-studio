@@ -106,8 +106,6 @@
 ```
 ┌─────────────────────────────────────────────┐
 │ [蓝紫粉渐变背景]                              │
-│  [π 提纲笔记]  结构清晰，层次分明，适合复习    │
-│                              [书本SVG装饰]   │
 │  ┌───────────────────────────────────────┐  │
 │  │ 第1讲  一元一次方程的应用               │  │
 │  │ ▓▓▓▓▓ 渐变装饰条                       │  │
@@ -139,27 +137,6 @@ const OUTLINE_COLORS = [
 <body class="min-h-screen bg-gray-100">
 <div class="max-w-5xl mx-auto px-4 py-8">
   <div class="rounded-3xl p-8 relative overflow-hidden" style="background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF4FF 100%);">
-
-    <!-- 标签头 -->
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-white font-bold text-lg shadow-md" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 9h16"/><path d="M4 9v2a8 8 0 0 0 16 0V9"/><path d="M9 9v10"/><path d="M15 9v10"/>
-        </svg>
-        提纲笔记
-      </div>
-      <div class="px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm">结构清晰，层次分明，适合复习</div>
-    </div>
-
-    <!-- 右上角装饰 SVG -->
-    <div class="absolute top-6 right-8 opacity-80">
-      <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-        <path d="M14 18c0-3 2-5 5-5h16v38H19c-3 0-5-2-5-5V18z" fill="#A78BFA" stroke="#7C3AED" stroke-width="2"/>
-        <path d="M58 18c0-3-2-5-5-5H37v38h16c3 0 5-2 5-5V18z" fill="#C4B5FD" stroke="#7C3AED" stroke-width="2"/>
-        <path d="M37 13v38" stroke="#7C3AED" stroke-width="2"/>
-        <path d="M20 22h10M20 28h10M42 22h10M42 28h10" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-      </svg>
-    </div>
 
     <!-- 内容卡片 -->
     <div class="bg-white rounded-3xl shadow-lg p-8 pt-10 relative z-10">
@@ -242,16 +219,14 @@ wrapEnglish(document.body);
 ```
 ┌─────────────────────────────────────────┐
 │ [暖黄背景]                                │
-│ [π 康奈尔笔记]  左侧关键词右侧详细内容     │
-│                         [折线SVG装饰]    │
 │  ┌─────────────────────────────────────┐│
-│  │ ○  第1讲 一元一次方程的应用    日期... ││
+│  │ ○  第1讲 一元一次方程的应用           ││
 │  │ ○  ───────────红色分割线───────────  ││
 │  │ ○  ┌────────┬────────────────────┐  ││
-│  │ ○  │ 关键词  │ 详细内容             │  ││
+│  │ ○  │ 线索词  │ 详细内容             │  ││
 │  │ ○  ├────────┼────────────────────┤  ││
-│  │ ○  │[核心公式] │ 公式内容合并段落...   │  ││
-│  │ ○  │[解题方法] │ 方法内容合并段落...   │  ││
+│  │ ○  │[绝对值] │ ● 数轴上表示数a...   │  ││
+│  │ ○  │[分类]   │ ● 整数和分数...      │  ││
 │  │ ○  └────────┴────────────────────┘  ││
 │  │    ┌────────┬────────────────────┐  ││
 │  │    │ 总结    │ 本节课核心是...      │  ││
@@ -260,7 +235,7 @@ wrapEnglish(document.body);
 └─────────────────────────────────────────┘
 ```
 
-### 关键词标签颜色（6 色循环）
+### 线索词标签颜色（6 色循环）
 ```javascript
 const CORNELL_TAG_COLORS = [
   {bg:'#FCE7F3', color:'#BE185D'},  // 粉
@@ -279,24 +254,6 @@ const CORNELL_TAG_COLORS = [
 <div class="max-w-5xl mx-auto px-4 py-8">
   <div class="rounded-3xl p-8 relative overflow-hidden" style="background:#FFF8EC;">
 
-    <!-- 标签头 -->
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-white font-bold text-lg shadow-md" style="background:linear-gradient(135deg,#FBBF24,#F59E0B);">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 9h16"/><path d="M4 9v2a8 8 0 0 0 16 0V9"/><path d="M9 9v10"/><path d="M15 9v10"/>
-        </svg>
-        康奈尔笔记
-      </div>
-      <div class="px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm">左侧关键词，右侧详细内容，方便复习回顾</div>
-    </div>
-
-    <!-- 右上角装饰 -->
-    <div class="absolute top-8 right-10">
-      <svg width="60" height="40" viewBox="0 0 60 40" fill="none">
-        <path d="M10 30 L15 10 L20 25 L25 5 L30 20 L35 15 L40 28 L45 8 L50 22" stroke="#FCD34D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </div>
-
     <!-- 活页本卡片 -->
     <div class="bg-white rounded-3xl shadow-lg relative pl-10">
       <!-- 左侧圆环 -->
@@ -311,12 +268,8 @@ const CORNELL_TAG_COLORS = [
 
       <div class="p-7 pl-4">
         <!-- 表头 -->
-        <div class="flex items-end justify-between mb-3 pb-3" style="border-bottom:3px solid #F87171;">
+        <div class="mb-3 pb-3" style="border-bottom:3px solid #F87171;">
           <h1 class="text-3xl font-bold text-gray-800" id="note-title"></h1>
-          <div class="text-right text-sm text-gray-600 space-y-1">
-            <div>日期：<span id="note-date"></span></div>
-            <div>课题：<span id="note-subject"></span></div>
-          </div>
         </div>
 
         <!-- 表格 -->
@@ -345,8 +298,6 @@ const CORNELL_TAG_COLORS = [
 <script>
 var data = {/* NoteData JSON */};
 document.getElementById('note-title').textContent = data.title;
-document.getElementById('note-date').textContent = data.date || '';
-document.getElementById('note-subject').textContent = data.subject;
 document.getElementById('note-summary').innerHTML = renderPoint(data.summary);
 
 // 关键词+合并段落：取 level 2 子节点的 heading 作为关键词，该节点所有 points 合并为一段
@@ -389,10 +340,8 @@ wrapEnglish(document.body);
 ```
 ┌─────────────────────────────────────────┐
 │ [绿渐变背景]                              │
-│ [π 知识点笔记]  系统整理，突出重点         │
-│                          [堆叠SVG装饰]   │
 │  ┌─────────────────────────────────────┐│
-│  │ 第1讲 一元一次方程的应用 · 知识点梳理  ││
+│  │ 第1讲 一元一次方程的应用               ││
 │  │                                     ││
 │  │ ┌──────────────┐ ┌──────────────┐  ││
 │  │ │①(红) 绝对值  │ │②(蓝) 分类比较│  ││
@@ -425,29 +374,6 @@ const KNOWLEDGE_CARD_COLORS = [
 <div class="max-w-5xl mx-auto px-4 py-8">
   <div class="rounded-3xl p-8 relative overflow-hidden" style="background:linear-gradient(135deg,#ECFDF5 0%,#F0FDF4 50%,#F7FEE7 100%);">
 
-    <!-- 标签头 -->
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex items-center gap-2 px-5 py-2.5 rounded-2xl text-white font-bold text-lg shadow-md" style="background:linear-gradient(135deg,#34D399,#10B981);">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 9h16"/><path d="M4 9v2a8 8 0 0 0 16 0V9"/><path d="M9 9v10"/><path d="M15 9v10"/>
-        </svg>
-        知识点笔记
-      </div>
-      <div class="px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm">系统整理，突出重点，便于记忆</div>
-    </div>
-
-    <!-- 右上角装饰 -->
-    <div class="absolute top-6 right-8">
-      <svg width="72" height="64" viewBox="0 0 72 64" fill="none">
-        <rect x="8" y="36" width="52" height="14" rx="2" fill="#A7F3D0" stroke="#10B981" stroke-width="2"/>
-        <rect x="12" y="22" width="52" height="14" rx="2" fill="#6EE7B7" stroke="#10B981" stroke-width="2"/>
-        <rect x="16" y="8" width="52" height="14" rx="2" fill="#34D399" stroke="#059669" stroke-width="2"/>
-        <rect x="20" y="12" width="8" height="6" rx="1" fill="white" opacity="0.6"/>
-        <rect x="16" y="26" width="8" height="6" rx="1" fill="white" opacity="0.6"/>
-        <rect x="12" y="40" width="8" height="6" rx="1" fill="white" opacity="0.6"/>
-      </svg>
-    </div>
-
     <!-- 内容卡片 -->
     <div class="bg-white rounded-3xl shadow-lg p-8 relative z-10">
       <h1 class="text-3xl font-bold text-gray-800 mb-6" id="note-title"></h1>
@@ -458,7 +384,7 @@ const KNOWLEDGE_CARD_COLORS = [
 
 <script>
 var data = {/* NoteData JSON */};
-document.getElementById('note-title').textContent = data.title + ' · 知识点梳理';
+document.getElementById('note-title').textContent = data.title;
 
 // 取 level 1 章节作为卡片（最多4张）
 var cards = data.sections.filter(function(s) { return s.level === 1; }).slice(0, 4);

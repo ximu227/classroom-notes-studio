@@ -49,42 +49,15 @@ function wrapEnglish(root) {
 
 在页面加载完成后调用 `wrapEnglish(document.body)`。
 
-## π 图标（标签头）
-
-所有模板顶部标签头的编号圆统一替换为 π（圆周率）SVG 图标：
-
-```html
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M4 9h16"/>
-  <path d="M4 9v2a8 8 0 0 0 16 0V9"/>
-  <path d="M9 9v10"/>
-  <path d="M15 9v10"/>
-</svg>
-```
-
-标签头结构：`渐变圆角标签（含 π 图标 + 模板名） + 白色半透明描述胶囊`
-
 ## 3 种模板主题色
 
 | 模板 | 主题色 | 背景 | 编号色 |
 |---|---|---|---|
 | 提纲笔记 | 紫 #7C3AED / 粉 #F472B6 | 蓝紫粉渐变 #EEF2FF→#F5F3FF→#FDF4FF | 粉→蓝→绿 循环 |
-| 康奈尔笔记 | 红 #F87171 / 黄 #FBBF24 | 暖黄 #FFF8EC | 关键词彩色标签（6色循环） |
+| 康奈尔笔记 | 红 #F87171 / 黄 #FBBF24 | 暖黄 #FFF8EC | 线索词彩色标签（6色循环） |
 | 知识点笔记 | 绿 #10B981 | 绿渐变 #ECFDF5→#F0FDF4→#F7FEE7 | 红/蓝/绿/紫 循环 |
 
 ## 通用组件
-
-### 模板标签头
-每个模板顶部有一个标签头：
-```
-渐变圆角标签（含 π 图标 + 模板名） + 白色半透明描述胶囊
-```
-- 标签：`px-5 py-2.5 rounded-2xl text-white font-bold text-lg shadow-md`
-- π 图标：`w-5 h-5`（SVG，stroke currentColor）
-- 描述：`px-4 py-2 rounded-full bg-white/70 text-gray-500 text-sm`
-
-### 装饰 SVG 图标
-每个模板右上角有一个主题相关的 SVG 装饰图标，opacity 0.8，绝对定位。
 
 ### 内容卡片
 - 白色背景 `bg-white`，`rounded-3xl shadow-lg`
@@ -112,7 +85,6 @@ function wrapEnglish(root) {
 
 ### 1. 提纲笔记
 - 页面背景：`linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF4FF 100%)`
-- 标签头渐变：`linear-gradient(135deg,#8B5CF6,#7C3AED)`
 - 章节1（粉）：编号 `#F472B6→#EC4899`，圆点 `#F472B6`，标签 `bg:#FCE7F3 color:#BE185D`
 - 章节2（蓝）：编号 `#60A5FA→#3B82F6`，圆点 `#3B82F6`，标签 `bg:#DBEAFE color:#1D4ED8`
 - 章节3（绿）：编号 `#34D399→#10B981`，圆点 `#10B981`，标签 `bg:#D1FAE5 color:#047857`
@@ -121,16 +93,14 @@ function wrapEnglish(root) {
 
 ### 2. 康奈尔笔记
 - 页面背景：`#FFF8EC`
-- 标签头渐变：`linear-gradient(135deg,#FBBF24,#F59E0B)`
 - 活页本风格：左侧 `pl-10`，左侧圆环 `w-5 h-5 rounded-full border-2 border-gray-300 bg-gray-100`
 - 表头分割线：`border-bottom:3px solid #F87171`
-- 表格表头：关键词列 `bg:#FEF3C7 color:#92400E`，内容列 `bg:#DBEAFE color:#1D4ED8`
-- 关键词标签：彩色背景圆角，每词不同色（粉/紫/紫红/绿/浅绿/青 6 色循环）
+- 表格表头：线索词列 `bg:#FEF3C7 color:#92400E`，内容列 `bg:#DBEAFE color:#1D4ED8`
+- 线索词标签：彩色背景圆角，每词不同色（粉/紫/紫红/绿/浅绿/青 6 色循环）
 - 总结栏：左侧 `bg:#FECDD3 color:#9F1239` 固定宽，右侧 `bg:#FFF1F2` 内容
 
 ### 3. 知识点笔记
 - 页面背景：`linear-gradient(135deg,#ECFDF5 0%,#F0FDF4 50%,#F7FEE7 100%)`
-- 标签头渐变：`linear-gradient(135deg,#34D399,#10B981)`
 - 2 列网格 `grid grid-cols-2 gap-5`
 - 卡片1（红）：`bg:#FFF1F2 border:2px solid #FECDD3`，编号 `#FB7185→#F43F5E`，标题 `color:#9F1239`
 - 卡片2（蓝）：`bg:#EFF6FF border:2px solid #BFDBFE`，编号 `#60A5FA→#3B82F6`，标题 `color:#1E40AF`
@@ -145,3 +115,6 @@ function wrapEnglish(root) {
 - ❌ 蓝紫渐变 + 圆角卡片的单调 AI 默认审美（每种模板要有鲜明主题色）
 - ❌ 大量 emoji 作为图标（使用 SVG 线性图标或纯 CSS）
 - ❌ CDN 版 KaTeX（Playwright file:// 页面中渲染不生效，必须本地引用）
+- ❌ 顶部标签头（模板名称、π 图标、描述胶囊）
+- ❌ 右上角装饰 SVG 图标
+- ❌ 康奈尔笔记右上角日期/课题
